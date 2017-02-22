@@ -21,7 +21,7 @@ This style guide ultimately represents the opinions of its contributors. If you 
 
 ### Speak Human
 
-Label your test suites (`describe` blocks) and specs (`it` blocks) in a way that clearly conveys the intention of each unit test. Note that the name of each test is the title of its `it` preceded by all its parent `describe` names.
+Label your test suites (`describe` blocks) and specs (`it` blocks) in a way that clearly conveys the intention of each unit test. Note that the name of each test is the title of its `it` preceded by all its parent `describe` names. Favor assertive verbs and avoid ones like "should."
 
 #### Why?
 
@@ -129,7 +129,7 @@ describe('Array.prototype', function() {
   describe('.push(x)', function() {
     var initialArray;
 
-    beforeAll(function() {
+    beforeEach(function() {
       initialArray = [1]; // Arrange
 
       initialArray.push(2); // Act
@@ -179,7 +179,7 @@ describe('Array.prototype', function() {
     var initialArray,
         pushResult;
 
-    beforeAll(function() {
+    beforeEach(function() {
       initialArray = [1];
 
       pushResult = initialArray.push(2);
@@ -213,7 +213,7 @@ describe('Array.prototype', function() {
     var initialArray,
         pushResult;
 
-    beforeAll(function() {
+    beforeEach(function() {
       initialArray = [1];
 
       pushResult = initialArray.push(2);
@@ -235,7 +235,7 @@ describe('Array.prototype', function() {
 ```javascript
 describe('Array.prototype', function() {
   describe('.push(x)', function() {
-    beforeAll(function() {
+    beforeEach(function() {
       this.initialArray = [1];
 
       this.pushResult = this.initialArray.push(2);
@@ -260,6 +260,7 @@ Prefer `beforeEach/afterEach` blocks over `beforeAll/afterAll` ones. The latter 
 
 * Avoids accidental state leak
 * Enforces test independence
+* Order of `All` block execution relative to `Each` ones is not always obvious
 
 #### Bad:
 
@@ -268,7 +269,9 @@ describe('Array.prototype', function() {
   describe('.push(x)', function() {
     beforeAll(function() {
       this.initialArray = [1];
+    });
 
+    beforeEach(function() {
       this.pushResult = this.initialArray.push(2);
     });
 
